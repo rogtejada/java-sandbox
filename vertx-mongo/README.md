@@ -32,9 +32,6 @@ LINK -> https://vertx.io/docs/guide-for-java-devs/
 
 - difficult to read, to write and to debug.
 
-### Questions?
-
-- How to deploy more verticles when needed?
 
 
 
