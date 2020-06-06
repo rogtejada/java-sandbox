@@ -1,4 +1,4 @@
-package com.rtejada;
+package com.rtejada.employee;
 
 import io.vertx.core.json.JsonObject;
 
