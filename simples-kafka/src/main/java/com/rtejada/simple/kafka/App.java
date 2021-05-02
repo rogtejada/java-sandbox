@@ -1,5 +1,6 @@
 package com.rtejada.simple.kafka;
 
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -14,12 +15,12 @@ public class App {
   }
 
   static void runConsumer() {
-    Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
+    Consumer<UUID, String> consumer = ConsumerCreator.createConsumer();
 
     int noMessageToFetch = 0;
 
     while (true) {
-      final ConsumerRecords<Long, String> consumerRecords = consumer.poll(1000);
+      final ConsumerRecords<UUID, String> consumerRecords = consumer.poll(1000);
       if (consumerRecords.count() == 0) {
         noMessageToFetch++;
         if (noMessageToFetch > IKafkaConstants.MAX_NO_MESSAGE_FOUND_COUNT)
@@ -40,11 +41,14 @@ public class App {
   }
 
   static void runProducer() {
-    Producer<Long, String> producer = ProducerCreator.createProducer();
+    Producer<UUID, String> producer = ProducerCreator.createProducer();
 
     for (int index = 0; index < IKafkaConstants.MESSAGE_COUNT; index++) {
-      final ProducerRecord<Long, String> record = new ProducerRecord<Long, String>(IKafkaConstants.TOPIC_NAME,"This is record " + index);
+      final ProducerRecord<UUID, String> record =
+          new ProducerRecord<UUID, String>(IKafkaConstants.TOPIC_NAME, UUID.randomUUID(),
+                                           "This is record " + index);
       try {
+        //Synchronous publish
         RecordMetadata metadata = producer.send(record).get();
         System.out.println("Record sent with key " + index + " to partition " + metadata.partition()
                                + " with offset " + metadata.offset());
