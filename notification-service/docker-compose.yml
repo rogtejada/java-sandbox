@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  mongodb-notification:
+    image : mongo
+    container_name: mongodb-notification
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /home/barry/mongodb/database:/data/db
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    networks:
+      - network-backend
+
+  4process-notification:
+    build: .
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mongodb-notification
+    networks:
+      - network-backend
+
+networks:
+  network-backend:
+    driver: bridge

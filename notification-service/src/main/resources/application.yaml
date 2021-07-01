@@ -1,0 +1,11 @@
+server:
+  port:
+    8083
+
+mail:
+  smtpHost: email-smtp.sa-east-1.amazonaws.com
+  smtpPort: 587
+  smtpUser:
+  smtpPassword:
+  companyEmail:
+  companyName:

@@ -1,0 +1,17 @@
+FROM amazoncorretto:11
+
+USER root
+
+ENV SLEEP 3
+
+ADD build/libs/4process-notification-0.0.1-SNAPSHOT.jar /generated.jar
+
+RUN sh -c 'touch /generated.jar'
+
+VOLUME /tmp
+
+EXPOSE 8080
+
+CMD echo "The application will start in ${SLEEP}s..." && \
+    sleep ${SLEEP} && \
+    java -Djava.security.egd=file:/dev/./urandom -jar /generated.jar
